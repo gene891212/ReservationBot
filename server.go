@@ -5,8 +5,19 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-sql-driver/mysql"
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/line/line-bot-sdk-go/linebot"
+)
+
+var (
+	config = mysql.Config{
+		User:   os.Getenv("user"),
+		Passwd: os.Getenv("passwd"),
+		Net:    os.Getenv("tcp"),
+		Addr:   os.Getenv("addr"),
+		DBName: os.Getenv("dbname"),
+	}
 )
 
 func Callback(c *gin.Context) {

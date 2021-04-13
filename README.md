@@ -1,5 +1,9 @@
 # ReservationBot
 
+## TO-DO
+
+- [ ] Reservation message
+
 ## Environment
 
 Create a `.env` file and enter the following below to add environment variables
@@ -11,6 +15,7 @@ CHANNEL_SCRECT=
 ACCESS_TOKEN=
 
 # Mysql
+
 user=
 passwd=
 net=

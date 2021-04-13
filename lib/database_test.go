@@ -1,12 +1,12 @@
 package lib
 
 import (
+	"database/sql"
 	"linebot-server/stru"
 	"reflect"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	_ "github.com/joho/godotenv"
 )
 
 func TestDataFromDB(t *testing.T) {
@@ -16,30 +16,38 @@ func TestDataFromDB(t *testing.T) {
 	}
 	defer db.Close()
 
-	mock.ExpectBegin()
-	mock.ExpectExec("UPDATE products").WillReturnResult(sqlmock.NewResult(1, 1))
-	mock.ExpectExec("INSERT INTO product_viewers").WithArgs(2, 3).WillReturnResult(sqlmock.NewResult(1, 1))
-	mock.ExpectCommit()
-
-	// now we execute our method
-	if err = recordStats(db, 2, 3); err != nil {
-		t.Errorf("error was not expected while updating stats: %s", err)
+	type args struct {
+		db *sql.DB
 	}
-
-	// we make sure that all expectations were met
-	if err := mock.ExpectationsWereMet(); err != nil {
-		t.Errorf("there were unfulfilled expectations: %s", err)
-	}
-
 	tests := []struct {
 		name string
+		args args
+		mock func()
 		want []stru.User
 	}{
 		// TODO: Add test cases.
+		{
+			name: "user table",
+			args: args{
+				db: db,
+			},
+			mock: func() {
+				rows := mock.NewRows([]string{"id", "userId", "name"}).AddRow(1, "hi", "hihi")
+				mock.ExpectQuery(`SELECT`).WillReturnRows(rows)
+			},
+			want: []stru.User{
+				{
+					ID:     1,
+					UserId: "hi",
+					Name:   "hihi",
+				},
+			},
+		},
 	}
 	for _, tt := range tests {
+		tt.mock()
 		t.Run(tt.name, func(t *testing.T) {
-			if got := DataFromDB(); !reflect.DeepEqual(got, tt.want) {
+			if got := DataFromDB(tt.args.db); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DataFromDB() = %v, want %v", got, tt.want)
 			}
 		})
