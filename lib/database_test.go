@@ -32,7 +32,7 @@ func TestDataFromDB(t *testing.T) {
 				db: db,
 			},
 			mock: func() {
-				rows := mock.NewRows([]string{"id", "userId", "name"}).AddRow(1, "hi", "hihi")
+				rows := mock.NewRows([]string{"ID", "UID", "Name"}).AddRow(1, "hi", "hihi")
 				mock.ExpectQuery(`SELECT`).WillReturnRows(rows)
 			},
 			want: []stru.User{
