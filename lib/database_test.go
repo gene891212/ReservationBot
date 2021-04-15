@@ -47,7 +47,7 @@ func TestDataFromDB(t *testing.T) {
 	for _, tt := range tests {
 		tt.mock()
 		t.Run(tt.name, func(t *testing.T) {
-			if got := DataFromDB(tt.args.db); !reflect.DeepEqual(got, tt.want) {
+			if got := AllUserFromDB(tt.args.db); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("DataFromDB() = %v, want %v", got, tt.want)
 			}
 		})

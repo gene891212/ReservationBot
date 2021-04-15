@@ -6,8 +6,8 @@ import (
 	"log"
 )
 
-func DataFromDB(db *sql.DB) []stru.User {
-	rows, err := db.Query("SELECT * FROM USERS")
+func AllUserFromDB(db *sql.DB) []stru.User {
+	rows, err := db.Query("SELECT * FROM Users")
 	if err != nil {
 		log.Fatal(err) // proper error handling instead of panic in your app
 	}
