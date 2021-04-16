@@ -1,6 +1,7 @@
 package main
 
 import (
+	"linebot-server/lib"
 	"linebot-server/router"
 	"log"
 	"os"
@@ -23,6 +24,7 @@ func main() {
 	// db, err := sql.Open("mysql", config.FormatDSN())
 	// users := lib.AllUserFromDB(db)
 	// fmt.Println(users)
+	lib.SetupRichMenu()
 
 	router := router.SetupRouter()
 	err := router.Run(":7000")
