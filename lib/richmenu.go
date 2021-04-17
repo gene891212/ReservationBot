@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/gin-gonic/gin"
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
@@ -32,9 +33,13 @@ func SetupRichMenu() {
 					Width:  1660,
 					Height: 500,
 				},
+				// Action: linebot.RichMenuAction{
+				// 	Type: "message",
+				// 	Text: "Good morning",
+				// },
 				Action: linebot.RichMenuAction{
-					Type: "message",
-					Text: "Good morning",
+					Type: "uri",
+					URI:  "https://liff.line.me/1655868250-B8gjw4Y8",
 				},
 			},
 		},
@@ -42,16 +47,23 @@ func SetupRichMenu() {
 
 	res, err := bot.CreateRichMenu(richMenuConfig).Do()
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatal(err)
 	}
 
-	_, err = bot.UploadRichMenuImage(res.RichMenuID, "static/richmenu.png").Do()
+	var path string
+
+	if gin.Mode() == gin.TestMode {
+		path = "../static/linebot/richmenu.png"
+	} else {
+		path = "static/linebot/richmenu.png"
+	}
+	_, err = bot.UploadRichMenuImage(res.RichMenuID, path).Do()
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatal(err)
 	}
 
 	_, err = bot.SetDefaultRichMenu(res.RichMenuID).Do()
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatal(err)
 	}
 }

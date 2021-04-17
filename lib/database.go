@@ -3,13 +3,12 @@ package lib
 import (
 	"database/sql"
 	"linebot-server/stru"
-	"log"
 )
 
 func AllUserFromDB(db *sql.DB) []stru.User {
 	rows, err := db.Query("SELECT * FROM Users")
 	if err != nil {
-		log.Fatal(err) // proper error handling instead of panic in your app
+		panic(err) // proper error handling instead of panic in your app
 	}
 	defer rows.Close()
 
@@ -22,7 +21,7 @@ func AllUserFromDB(db *sql.DB) []stru.User {
 	for rows.Next() {
 		err = rows.Scan(&ID, &userID, &name)
 		if err != nil {
-			log.Fatal(err)
+			panic(err)
 		}
 		allUser = append(
 			allUser,

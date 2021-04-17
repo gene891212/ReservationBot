@@ -30,16 +30,14 @@ func Callback(c *gin.Context) {
 
 	events, err := bot.ParseRequest(c.Request)
 	if err != nil {
-		c.Status(500)
-		return
+		panic(err)
 	}
 	for _, event := range events {
 		switch msg := event.Message.(type) {
 		case *linebot.TextMessage:
 			_, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(msg.Text)).Do()
 			if err != nil {
-				c.Status(500)
-				return
+				panic(err)
 			}
 		}
 	}
