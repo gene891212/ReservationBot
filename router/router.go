@@ -14,8 +14,11 @@ func SetupRouter() *gin.Engine {
 		router.LoadHTMLGlob("view/*")
 	}
 
-	router.POST("/callback", handler.Callback)
-	router.GET("/test", handler.Index)
+	router.GET("/", handler.LiffPage)
+	router.POST("/callback", handler.LinceEchoBot)
 
+	api := router.Group("/api")
+	api.POST("/submit", handler.SentReservation)
 	return router
+	// curl -d reciver=hihi http://localhost:7000/api/submit
 }

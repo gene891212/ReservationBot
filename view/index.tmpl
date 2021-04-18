@@ -2,21 +2,31 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>預約訊息</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>預約訊息</title>
 </head>
+<style>
+  body {
+    text-align: center;
+  }
+</style>
 
 <body>
-    <h1>
-        預約訊息
-    </h1>
-    <label for="birthdaytime">選擇預約時間：</label>
-    <form action="" method="post">
-        <input type="datetime-local" id="birthdaytime" name="birthdaytime">
-        <input type="submit">
-    </form>
+  <h1>預約訊息</h1>
+  <form action="/api/submit" method="post">
+    <label for="reciver">選擇傳送人：</label>
+    <select name="reciver" id="reciver">
+      {{ range $item := .items }}
+        <option value="">{{ $item.Name }}</option>
+      {{ end }}
+    </select>
+    <br>
+    <label for="daytime">選擇預約時間：</label>
+    <input type="datetime-local" id="daytime" name="daytime">
+    <input type="submit">
+  </form>
 
 </body>
 

@@ -1,14 +1,14 @@
 package stru
 
 type User struct {
-	ID     int    `db:"id"`
-	UserId string `db:"userId"`
-	Name   string `db:"name"`
+	ID   int
+	UID  string
+	Name string
 }
 
 type Message struct {
-	Content string `db:"content"`
-	Sender  User   `db:"sender"`
-	Reciver User   `db:"reciver"`
-	Time    string `db:"time"`
+	Content string
+	Sender  User
+	Reciver User
+	Time    string
 }

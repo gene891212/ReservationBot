@@ -5,21 +5,10 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-sql-driver/mysql"
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
-var (
-	config = mysql.Config{
-		User:   os.Getenv("user"),
-		Passwd: os.Getenv("passwd"),
-		Net:    os.Getenv("tcp"),
-		Addr:   os.Getenv("addr"),
-		DBName: os.Getenv("dbname"),
-	}
-)
-
-func Callback(c *gin.Context) {
+func LinceEchoBot(c *gin.Context) {
 	bot, err := linebot.New(
 		os.Getenv("CHANNEL_SCRECT"),
 		os.Getenv("ACCESS_TOKEN"),

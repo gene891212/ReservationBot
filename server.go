@@ -21,9 +21,6 @@ var (
 )
 
 func main() {
-	// db, err := sql.Open("mysql", config.FormatDSN())
-	// users := lib.AllUserFromDB(db)
-	// fmt.Println(users)
 	lib.SetupRichMenu()
 
 	router := router.SetupRouter()

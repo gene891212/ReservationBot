@@ -13,22 +13,22 @@ func AllUserFromDB(db *sql.DB) []stru.User {
 	defer rows.Close()
 
 	var (
-		ID           int
-		userID, name string
-		allUser      []stru.User
+		id        int
+		uID, name string
+		allUser   []stru.User
 	)
 
 	for rows.Next() {
-		err = rows.Scan(&ID, &userID, &name)
+		err = rows.Scan(&id, &uID, &name)
 		if err != nil {
 			panic(err)
 		}
 		allUser = append(
 			allUser,
 			stru.User{
-				ID:     ID,
-				UserId: userID,
-				Name:   name,
+				ID:   id,
+				UID:  uID,
+				Name: name,
 			},
 		)
 	}
