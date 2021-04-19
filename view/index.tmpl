@@ -19,7 +19,7 @@
     <label for="reciver">選擇傳送人：</label>
     <select name="reciver" id="reciver">
       {{ range $item := .items }}
-        <option value="">{{ $item.Name }}</option>
+        <option value="{{ $item.Name }}">{{ $item.Name }}</option>
       {{ end }}
     </select>
     <br>

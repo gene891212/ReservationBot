@@ -29,4 +29,16 @@ func LiffPage(c *gin.Context) {
 	c.HTML(200, "index.tmpl", gin.H{
 		"items": allUser,
 	})
+	// c.HTML(200, "index.tmpl", gin.H{
+	// 	"items": []stru.User{
+	// 		{
+	// 			UID:  "something",
+	// 			Name: "Ian",
+	// 		},
+	// 		{
+	// 			UID:  "ok",
+	// 			Name: "Gene",
+	// 		},
+	// 	},
+	// })
 }

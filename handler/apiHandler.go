@@ -7,6 +7,6 @@ import (
 )
 
 func SentReservation(c *gin.Context) {
-
 	fmt.Println(c.PostForm("reciver"))
+	fmt.Println(c.PostForm("daytime"))
 }
