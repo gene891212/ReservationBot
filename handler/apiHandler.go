@@ -7,6 +7,9 @@ import (
 )
 
 func SentReservation(c *gin.Context) {
+
+	fmt.Println(c.PostForm("accessToken"))
 	fmt.Println(c.PostForm("reciver"))
-	fmt.Println(c.PostForm("daytime"))
+	fmt.Println(c.PostForm("sendTime"))
+	// http.Post()
 }

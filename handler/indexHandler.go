@@ -1,8 +1,7 @@
 package handler
 
 import (
-	"database/sql"
-	"linebot-server/lib"
+	"linebot-server/stru"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -21,24 +20,24 @@ var (
 )
 
 func LiffPage(c *gin.Context) {
-	db, err := sql.Open("mysql", config.FormatDSN())
-	if err != nil {
-		panic(err)
-	}
-	allUser := lib.AllUserFromDB(db)
-	c.HTML(200, "index.tmpl", gin.H{
-		"items": allUser,
-	})
+	// db, err := sql.Open("mysql", config.FormatDSN())
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// allUser := lib.AllUserFromDB(db)
 	// c.HTML(200, "index.tmpl", gin.H{
-	// 	"items": []stru.User{
-	// 		{
-	// 			UID:  "something",
-	// 			Name: "Ian",
-	// 		},
-	// 		{
-	// 			UID:  "ok",
-	// 			Name: "Gene",
-	// 		},
-	// 	},
+	// 	"items": allUser,
 	// })
+	c.HTML(200, "index.tmpl", gin.H{
+		"items": []stru.User{
+			{
+				UID:  "something",
+				Name: "Ian",
+			},
+			{
+				UID:  "ok",
+				Name: "Gene",
+			},
+		},
+	})
 }

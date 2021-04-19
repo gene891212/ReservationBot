@@ -8,7 +8,7 @@ import (
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
-func LinceEchoBot(c *gin.Context) {
+func LineEchoBot(c *gin.Context) {
 	bot, err := linebot.New(
 		os.Getenv("CHANNEL_SCRECT"),
 		os.Getenv("ACCESS_TOKEN"),

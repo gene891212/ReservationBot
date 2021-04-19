@@ -15,11 +15,15 @@
 
 <body>
   <h1>預約訊息</h1>
-  <form action="/api/submit" method="post">
+  <form action="/api/submit" method="post" id="data">
+    <label for="sender">傳送者：</label>
+    <input type="text" id="sender" name="sender" readonly>
+    <input type="hidden" id="accessToken" name="accessToken">
+    <br>
     <label for="reciver">選擇傳送人：</label>
-    <select name="reciver" id="reciver">
+    <select id="reciver" name="reciver">
       {{ range $item := .items }}
-        <option value="{{ $item.Name }}">{{ $item.Name }}</option>
+      <option value="{{ $item.Name }}">{{ $item.Name }}</option>
       {{ end }}
     </select>
     <br>
@@ -29,5 +33,8 @@
   </form>
 
 </body>
+
+<script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script src="/static/liff/liff.js"></script>
 
 </html>

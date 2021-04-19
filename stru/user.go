@@ -12,3 +12,9 @@ type Message struct {
 	Reciver User
 	Time    string
 }
+
+type Rerservation struct {
+	AccessToken string
+	Reciver     string
+	SendTime    string
+}

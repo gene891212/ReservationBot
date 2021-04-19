@@ -13,6 +13,7 @@ Create a `.env` file and enter the following below to add environment variables
 
 CHANNEL_SCRECT=
 ACCESS_TOKEN=
+LIFF_URL=
 
 # Mysql
 

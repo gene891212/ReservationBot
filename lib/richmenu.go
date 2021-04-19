@@ -39,7 +39,7 @@ func SetupRichMenu() {
 				// },
 				Action: linebot.RichMenuAction{
 					Type: "uri",
-					URI:  "https://liff.line.me/1655868250-B8gjw4Y8",
+					URI:  os.Getenv("LIFF_URL"),
 				},
 			},
 		},
