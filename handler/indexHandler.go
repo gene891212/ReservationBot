@@ -3,6 +3,7 @@ package handler
 import (
 	"linebot-server/stru"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-sql-driver/mysql"
@@ -20,16 +21,26 @@ var (
 )
 
 func LiffPage(c *gin.Context) {
+	now := time.Now()
 	// db, err := sql.Open("mysql", config.FormatDSN())
 	// if err != nil {
 	// 	panic(err)
 	// }
 	// allUser := lib.AllUserFromDB(db)
 	// c.HTML(200, "index.tmpl", gin.H{
-	// 	"items": allUser,
+	// 	"users": allUser,
+	// 	"now": struct {
+	// 		Date string
+	// 		Time string
+	// 	}{
+	// 		Date: time.Now().Format("2006-01-02"),
+	// 		Time: time.Now().Format("15:04"),
+	// 	},
 	// })
+
+	// Dev data
 	c.HTML(200, "index.tmpl", gin.H{
-		"items": []stru.User{
+		"users": []stru.User{
 			{
 				UID:  "something",
 				Name: "Ian",
@@ -38,6 +49,13 @@ func LiffPage(c *gin.Context) {
 				UID:  "ok",
 				Name: "Gene",
 			},
+		},
+		"now": struct {
+			Date string
+			Time string
+		}{
+			Date: now.Format("2006-01-02"),
+			Time: now.Format("15:04"),
 		},
 	})
 }

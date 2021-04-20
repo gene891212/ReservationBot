@@ -34,3 +34,11 @@ func AllUserFromDB(db *sql.DB) []stru.User {
 	}
 	return allUser
 }
+
+func InsertUserToDB(db *sql.DB) {
+	db.Exec("INSERT INTO Users (UID, Name) VALUES (?, ?)")
+}
+
+func InsertReserationToDB(db *sql.DB) {
+	db.Exec("")
+}

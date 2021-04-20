@@ -21,17 +21,22 @@
     <input type="hidden" id="accessToken" name="accessToken">
     <br>
     <label for="reciver">選擇傳送人：</label>
-    <select id="reciver" name="reciver">
-      {{ range $item := .items }}
-      <option value="{{ $item.Name }}">{{ $item.Name }}</option>
+    <select id="reciver" name="reciver" required>
+      {{ range $user := .users }}
+      <option value="{{ $user.Name }}">{{ $user.Name }}</option>
       {{ end }}
     </select>
     <br>
-    <label for="daytime">選擇預約時間：</label>
-    <input type="datetime-local" id="daytime" name="daytime">
+    <label for="date">選擇預約日期：</label>
+    <input type="date" id="date" name="date" min="{{ .now.Date }}" value="{{ .now.Date }}" required>
+    <br>
+    <label for="time">選擇預約時間：</label>
+    <input type="time" id="time" name="time" value="{{ .now.Time }}" required>
+
     <input type="submit">
   </form>
-
+  <button id="liffLoginButton">Log in</button>
+  <button id="liffLogoutButton">Log out</button>
 </body>
 
 <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
