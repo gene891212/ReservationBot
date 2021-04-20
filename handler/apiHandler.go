@@ -1,7 +1,10 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"linebot-server/stru"
 	"net/http"
 	"time"
 
@@ -20,18 +23,27 @@ func SentReservation(c *gin.Context) {
 	fmt.Println(sendTime)
 
 	client := &http.Client{}
-	res, err := client.Get("https://api.line.me/v2/profile")
-	if err != nil {
-		panic(err)
-	}
 
 	req, err := http.NewRequest("GET", "https://api.line.me/v2/profile", nil)
 	if err != nil {
 		panic(err)
 	}
 
-	req.Header.Add("Bearer", accessToken)
-	res, err = client.Do(req)
+	req.Header.Add("Authorization", "Bearer "+accessToken)
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
 
-	fmt.Println(res)
+	var u stru.UserInfo
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	err = json.Unmarshal(body, &u)
+	if err != nil {
+		panic(err)
+	}
 }

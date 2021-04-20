@@ -6,6 +6,13 @@ type User struct {
 	Name string
 }
 
+type UserInfo struct {
+	UserID        string `json:"userId"`
+	DisplayName   string `json:"displayName"`
+	PictureUrl    string `json:"pictureUrl"`
+	StatusMessage string `json:"statusMessage"`
+}
+
 type Message struct {
 	Content string
 	Sender  User
