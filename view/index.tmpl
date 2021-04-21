@@ -16,8 +16,6 @@
 <body>
   <h1>預約訊息</h1>
   <form action="/api/submit" method="post" id="data">
-    <label for="sender">傳送者：</label>
-    <input type="text" id="sender" name="sender" readonly>
     <input type="hidden" id="accessToken" name="accessToken">
     <br>
     <label for="reciver">選擇傳送人：</label>
@@ -32,6 +30,10 @@
     <br>
     <label for="time">選擇預約時間：</label>
     <input type="time" id="time" name="time" value="{{ .now.Time }}" required>
+    <br>
+    <label for="message">輸入訊息內容：</label>
+    <br>
+    <textarea name="message" id="message" required></textarea>
 
     <input type="submit">
   </form>
