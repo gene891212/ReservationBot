@@ -37,9 +37,9 @@ func TestAllUserFromDB(t *testing.T) {
 			},
 			want: []stru.User{
 				{
-					ID:   1,
-					UID:  "hi",
-					Name: "hihi",
+					ID:     1,
+					UserID: "hi",
+					Name:   "hihi",
 				},
 			},
 		},

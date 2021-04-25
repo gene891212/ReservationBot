@@ -42,12 +42,12 @@ func LiffPage(c *gin.Context) {
 	c.HTML(200, "index.tmpl", gin.H{
 		"users": []stru.User{
 			{
-				UID:  "something",
-				Name: "Ian",
+				UserID: "something",
+				Name:   "Ian",
 			},
 			{
-				UID:  "ok",
-				Name: "Gene",
+				UserID: "ok",
+				Name:   "Gene",
 			},
 		},
 		"now": struct {
