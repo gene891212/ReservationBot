@@ -1,6 +1,6 @@
 module linebot-server
 
-go 1.16
+go 1.15
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.0
@@ -8,5 +8,4 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/joho/godotenv v1.3.0
 	github.com/line/line-bot-sdk-go v7.8.0+incompatible
-	github.com/robfig/cron/v3 v3.0.1 // indirect
 )

@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>預約訊息</title>
+  <link rel="shortcut icon" href="static/favicon.ico">
 </head>
 <style>
   body {
@@ -31,9 +32,9 @@
     <label for="time">選擇預約時間：</label>
     <input type="time" id="time" name="time" value="{{ .now.Time }}" required>
     <br>
-    <label for="message">輸入訊息內容：</label>
+    <label for="content">輸入訊息內容：</label>
     <br>
-    <textarea name="message" id="message" required></textarea>
+    <textarea name="content" id="content" required></textarea>
 
     <input type="submit">
   </form>
