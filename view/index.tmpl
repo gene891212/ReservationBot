@@ -22,7 +22,7 @@
     <label for="reciver">選擇傳送人：</label>
     <select id="reciver" name="reciver" required>
       {{ range $user := .users }}
-      <option value="{{ $user.Name }}">{{ $user.Name }}</option>
+      <option value="{{ $user.DisplayName }}">{{ $user.DisplayName }}</option>
       {{ end }}
     </select>
     <br>

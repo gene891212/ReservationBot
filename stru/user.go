@@ -1,12 +1,7 @@
 package stru
 
-type User struct {
-	ID     int
-	UserID string
-	Name   string
-}
-
 type UserInfo struct {
+	ID            int    `json:"id"`
 	UserID        string `json:"userId"`
 	DisplayName   string `json:"displayName"`
 	PictureUrl    string `json:"pictureUrl"`
@@ -15,8 +10,8 @@ type UserInfo struct {
 
 type Message struct {
 	Content string
-	Sender  User
-	Reciver User
+	Sender  UserInfo
+	Reciver UserInfo
 	Time    string
 }
 

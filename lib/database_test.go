@@ -23,7 +23,7 @@ func TestAllUserFromDB(t *testing.T) {
 		name string
 		args args
 		mock func()
-		want []stru.User
+		want []stru.UserInfo
 	}{
 		// TODO: Add test cases.
 		{
@@ -35,11 +35,11 @@ func TestAllUserFromDB(t *testing.T) {
 				rows := mock.NewRows([]string{"ID", "UID", "Name"}).AddRow(1, "hi", "hihi")
 				mock.ExpectQuery(`SELECT`).WillReturnRows(rows)
 			},
-			want: []stru.User{
+			want: []stru.UserInfo{
 				{
-					ID:     1,
-					UserID: "hi",
-					Name:   "hihi",
+					ID:          1,
+					UserID:      "hi",
+					DisplayName: "hihi",
 				},
 			},
 		},

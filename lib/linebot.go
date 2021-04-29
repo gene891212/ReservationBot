@@ -1,6 +1,8 @@
 package lib
 
 import (
+	"database/sql"
+	"fmt"
 	"log"
 	"os"
 
@@ -65,5 +67,23 @@ func SetupRichMenu() {
 	_, err = bot.SetDefaultRichMenu(res.RichMenuID).Do()
 	if err != nil {
 		log.Fatal(err)
+	}
+}
+
+func PushMessage(db *sql.DB, reciver string, content string) {
+	bot, err := linebot.New(
+		os.Getenv("CHANNEL_SCRECT"),
+		os.Getenv("ACCESS_TOKEN"),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	userProfile := GetUser(db, reciver)
+
+	_, err = bot.PushMessage(userProfile.UserID, linebot.NewTextMessage(content)).Do()
+	if err != nil {
+		fmt.Println(err)
+		panic(err)
 	}
 }

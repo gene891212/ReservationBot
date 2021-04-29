@@ -1,7 +1,8 @@
 package handler
 
 import (
-	"linebot-server/stru"
+	"database/sql"
+	"linebot-server/lib"
 	"os"
 	"time"
 
@@ -21,41 +22,40 @@ var (
 )
 
 func LiffPage(c *gin.Context) {
-	now := time.Now()
-	// db, err := sql.Open("mysql", config.FormatDSN())
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// allUser := lib.AllUserFromDB(db)
-	// c.HTML(200, "index.tmpl", gin.H{
-	// 	"users": allUser,
-	// 	"now": struct {
-	// 		Date string
-	// 		Time string
-	// 	}{
-	// 		Date: time.Now().Format("2006-01-02"),
-	// 		Time: time.Now().Format("15:04"),
-	// 	},
-	// })
-
-	// Dev data
+	db, err := sql.Open("mysql", config.FormatDSN())
+	if err != nil {
+		panic(err)
+	}
+	allUser := lib.AllUserFromDB(db)
 	c.HTML(200, "index.tmpl", gin.H{
-		"users": []stru.User{
-			{
-				UserID: "something",
-				Name:   "Ian",
-			},
-			{
-				UserID: "ok",
-				Name:   "Gene",
-			},
-		},
+		"users": allUser,
 		"now": struct {
 			Date string
 			Time string
 		}{
-			Date: now.Format("2006-01-02"),
-			Time: now.Format("15:04"),
+			Date: time.Now().Format("2006-01-02"),
+			Time: time.Now().Add(time.Minute).Format("15:04"),
 		},
 	})
+
+	// Dev data
+	// c.HTML(200, "index.tmpl", gin.H{
+	// 	"users": []stru.User{
+	// 		{
+	// 			UserID: "something",
+	// 			Name:   "Ian",
+	// 		},
+	// 		{
+	// 			UserID: "ok",
+	// 			Name:   "Gene",
+	// 		},
+	// 	},
+	// 	"now": struct {
+	// 		Date string
+	// 		Time string
+	// 	}{
+	// 		Date: now.Format("2006-01-02"),
+	// 		Time: now.Format("15:04"),
+	// 	},
+	// })
 }
