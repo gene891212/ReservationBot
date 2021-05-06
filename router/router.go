@@ -16,13 +16,14 @@ func SetupRouter() *gin.Engine {
 		router.LoadHTMLGlob("view/*")
 		router.Static("/static", "static")
 	}
+	userRepo := controller.NewUser()
+	linebotRepo := controller.NewLinebot()
 
 	router.GET("/", handler.LiffPage)
-	router.POST("/callback", handler.LineEchoBot)
+	router.POST("/callback", linebotRepo.EchoBot)
 
 	api := router.Group("/api")
 	// api.POST("/submit", handler.SentReservation)
-	userRepo := controller.New()
 	api.GET("/users", userRepo.GetUsersHandler)
 	api.GET("/user/:name", userRepo.GetUserHandler)
 	return router

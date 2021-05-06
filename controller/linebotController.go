@@ -11,57 +11,20 @@ import (
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
-type Repository struct {
+type LinebotRepo struct {
 	Db *sql.DB
 }
 
-func New() Repository {
+func NewLinebot() LinebotRepo {
 	db, err := database.InitDb()
 	if err != nil {
 		panic(err)
 	}
-	handler := Repository{Db: db}
-	return handler
+	repo := LinebotRepo{Db: db}
+	return repo
 }
 
-func (handler *Repository) GetUserHandler(c *gin.Context) {
-	name, _ := c.Params.Get("name")
-	user, err := models.GetUser(handler.Db, name)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			c.JSON(400, gin.H{
-				"status":  400,
-				"message": "name not found",
-			})
-			return
-		} else {
-			c.JSON(500, gin.H{
-				"status": 500,
-				"error":  err.Error(),
-			})
-			return
-		}
-	}
-	c.JSON(200, user)
-}
-
-func (handler *Repository) GetUsersHandler(c *gin.Context) {
-	user, err := models.GetUsers(handler.Db)
-	if err != nil {
-		c.JSON(500, gin.H{
-			"status": 500,
-			"error":  err.Error(),
-		})
-		return
-	}
-	c.JSON(200, user)
-}
-
-// func (handler *Repository) CreateUserHandler(c *gin.Context) {
-
-// }
-
-func (handler *Repository) EchoBot(c *gin.Context) {
+func (repo *LinebotRepo) EchoBot(c *gin.Context) {
 	bot, err := linebot.New(
 		os.Getenv("CHANNEL_SCRECT"),
 		os.Getenv("ACCESS_TOKEN"),
@@ -72,7 +35,11 @@ func (handler *Repository) EchoBot(c *gin.Context) {
 
 	events, err := bot.ParseRequest(c.Request)
 	if err != nil {
-		panic(err)
+		c.JSON(500, gin.H{
+			"status":  500,
+			"message": err.Error(),
+		})
+		return
 	}
 	for _, event := range events {
 		if event.Type == linebot.EventTypeFollow {
@@ -85,7 +52,7 @@ func (handler *Repository) EchoBot(c *gin.Context) {
 				})
 				return
 			}
-			models.CreateUser(handler.Db, profile)
+			models.CreateUser(repo.Db, profile)
 		} else if event.Type == linebot.EventTypeMessage {
 			switch msg := event.Message.(type) {
 			case *linebot.TextMessage:
