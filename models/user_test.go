@@ -163,6 +163,7 @@ func TestGetUsers(t *testing.T) {
 }
 
 func TestCreateUser(t *testing.T) {
+	db, mock := NewMock()
 	type args struct {
 		db      *sql.DB
 		profile *linebot.UserProfileResponse
@@ -170,14 +171,75 @@ func TestCreateUser(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
+		mock    func()
 		wantErr bool
 	}{
 		// TODO: Add test cases.
+		{
+			name: "Create user",
+			args: args{
+				db: db,
+				profile: &linebot.UserProfileResponse{
+					UserID:      "uID",
+					DisplayName: "name",
+					PictureURL:  "url",
+				},
+			},
+			mock: func() {
+				prep := mock.ExpectPrepare("INSERT INTO Users")
+				prep.ExpectExec().WillReturnResult(sqlmock.NewResult(1, 1))
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
+		tt.mock()
 		t.Run(tt.name, func(t *testing.T) {
 			if err := CreateUser(tt.args.db, tt.args.profile); (err != nil) != tt.wantErr {
 				t.Errorf("CreateUser() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestGetUserByAccessToken(t *testing.T) {
+	type args struct {
+		accessToken string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    User
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{
+			name: "Get user by access token: no access token",
+			args: args{
+				accessToken: "",
+			},
+			want:    User{},
+			wantErr: true,
+		},
+		// Postpone
+		// {
+		// 	name: "Get user by access token: success",
+		// 	args: args{
+		// 		accessToken: "",
+		// 	},
+		// 	want:    User{},
+		// 	wantErr: false,
+		// },
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GetUserByAccessToken(tt.args.accessToken)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetUserByAccessToken() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetUserByAccessToken() = %v, want %v", got, tt.want)
 			}
 		})
 	}

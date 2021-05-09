@@ -72,7 +72,6 @@ func (repo *MessageRepo) CreateMessageHandler(c *gin.Context) {
 		Reciver: reciver,
 		Time:    datetime,
 	}
-	fmt.Println(message)
 	err = models.CreateMessage(repo.Db, message)
 	if err != nil {
 		c.JSONP(500, gin.H{

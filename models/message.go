@@ -17,8 +17,11 @@ type Message struct {
 // }
 
 func CreateMessage(db *sql.DB, msg Message) error {
-	stmt, _ := db.Prepare("INSERT INTO Messages (Content, Sender, Reciver, Time) VALUES (?, ?, ?, ?)")
-	_, err := stmt.Exec(
+	stmt, err := db.Prepare(`INSERT INTO Messages (Content, Sender, Reciver, Time) VALUES (?, ?, ?, ?)`)
+	if err != nil {
+		return err
+	}
+	_, err = stmt.Exec(
 		msg.Content,
 		msg.Sender.ID,
 		msg.Reciver.ID,

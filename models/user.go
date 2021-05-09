@@ -3,6 +3,8 @@ package models
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -18,8 +20,14 @@ type User struct {
 }
 
 func GetUser(db *sql.DB, name string) (User, error) {
-	// stmt, _ := db.Prepare("SELECT (UserID, DisplayName) FROM Users WHERE Name=?")
+	// stmt, err := db.Prepare(`SELECT (UserID, DisplayName) FROM Users WHERE Name = ?`)
+	// if err != nil {
+	// 	return User{}, err
+	// }
 	// rows, err := stmt.Query(name)
+	// if err != nil {
+	// 	return User{}, err
+	// }
 	rows := db.QueryRow("SELECT ID, UserID, DisplayName FROM Users WHERE DisplayName=?", name)
 
 	user := User{}
@@ -51,8 +59,11 @@ func GetUsers(db *sql.DB) ([]User, error) {
 }
 
 func CreateUser(db *sql.DB, profile *linebot.UserProfileResponse) error {
-	stmt, _ := db.Prepare("INSERT INTO Users (UserID, DisplayName, PictureURL) VALUES (?, ?, ?)")
-	_, err := stmt.Exec(
+	prep, err := db.Prepare("INSERT INTO Users (UserID, DisplayName, PictureURL) VALUES (?, ?, ?)")
+	if err != nil {
+		return err
+	}
+	_, err = prep.Exec(
 		profile.UserID,
 		profile.DisplayName,
 		profile.PictureURL,
@@ -74,6 +85,11 @@ func GetUserByAccessToken(accessToken string) (User, error) {
 		return User{}, nil
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		msg := fmt.Sprintf("Unexpected response status code: %v", resp.StatusCode)
+		return User{}, errors.New(msg)
+	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
