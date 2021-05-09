@@ -47,6 +47,7 @@ func (repo *UserRepo) GetUsersHandler(c *gin.Context) {
 	if err != nil {
 		c.JSON(500, gin.H{
 			"status": 500,
+			"detail": "GetUsersHandler get users error",
 			"error":  err.Error(),
 		})
 		return

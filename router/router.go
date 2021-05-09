@@ -18,13 +18,16 @@ func SetupRouter() *gin.Engine {
 	}
 	userRepo := controller.NewUser()
 	linebotRepo := controller.NewLinebot()
+	messageRepo := controller.NewMessage()
 
 	router.GET("/", handler.LiffPage)
 	router.POST("/callback", linebotRepo.EchoBot)
 
 	api := router.Group("/api")
-	// api.POST("/submit", handler.SentReservation)
+	// api.POST("/submit", messageRepo)
 	api.GET("/users", userRepo.GetUsersHandler)
 	api.GET("/user/:name", userRepo.GetUserHandler)
+
+	api.POST("/message", messageRepo.CreateMessageHandler)
 	return router
 }

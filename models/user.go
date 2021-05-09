@@ -2,7 +2,9 @@ package models
 
 import (
 	"database/sql"
-	"fmt"
+	"encoding/json"
+	"io/ioutil"
+	"net/http"
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
@@ -18,10 +20,10 @@ type User struct {
 func GetUser(db *sql.DB, name string) (User, error) {
 	// stmt, _ := db.Prepare("SELECT (UserID, DisplayName) FROM Users WHERE Name=?")
 	// rows, err := stmt.Query(name)
-	rows := db.QueryRow("SELECT UserID, DisplayName FROM Users WHERE DisplayName=?", name)
+	rows := db.QueryRow("SELECT ID, UserID, DisplayName FROM Users WHERE DisplayName=?", name)
 
 	user := User{}
-	err := rows.Scan(&user.UserID, &user.DisplayName)
+	err := rows.Scan(&user.ID, &user.UserID, &user.DisplayName)
 	if err != nil {
 		return User{}, err
 	}
@@ -50,7 +52,7 @@ func GetUsers(db *sql.DB) ([]User, error) {
 
 func CreateUser(db *sql.DB, profile *linebot.UserProfileResponse) error {
 	stmt, _ := db.Prepare("INSERT INTO Users (UserID, DisplayName, PictureURL) VALUES (?, ?, ?)")
-	res, err := stmt.Exec(
+	_, err := stmt.Exec(
 		profile.UserID,
 		profile.DisplayName,
 		profile.PictureURL,
@@ -58,6 +60,31 @@ func CreateUser(db *sql.DB, profile *linebot.UserProfileResponse) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(res)
 	return nil
+}
+
+func GetUserByAccessToken(accessToken string) (User, error) {
+	client := &http.Client{}
+
+	req, _ := http.NewRequest("GET", "https://api.line.me/v2/profile", nil)
+
+	req.Header.Add("Authorization", "Bearer "+accessToken)
+	resp, err := client.Do(req)
+	if err != nil {
+		return User{}, nil
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return User{}, nil
+	}
+
+	user := User{}
+	err = json.Unmarshal(body, &user)
+	if err != nil {
+		return User{}, nil
+	}
+
+	return user, nil
 }

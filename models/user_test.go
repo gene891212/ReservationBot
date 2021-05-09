@@ -21,8 +21,8 @@ func NewMock() (*sql.DB, sqlmock.Sqlmock) {
 
 func TestGetUser(t *testing.T) {
 	db, mock := NewMock()
-	field := []string{"UserID", "DisplayName"}
-	query := `SELECT UserID, DisplayName FROM Users WHERE DisplayName=?`
+	field := []string{"ID", "UserID", "DisplayName"}
+	query := `SELECT ID, UserID, DisplayName FROM Users WHERE DisplayName=?`
 	defer db.Close()
 
 	type args struct {
@@ -45,11 +45,13 @@ func TestGetUser(t *testing.T) {
 			},
 			mock: func() {
 				rows := sqlmock.NewRows(field).
-					AddRow("userId", "hi")
+					AddRow(0, "userId", "hi").
+					AddRow(1, "userId1", "name1")
 				// actions := []driver.Value{"hi"}
 				mock.ExpectQuery(query).WithArgs("hi").WillReturnRows(rows)
 			},
 			want: User{
+				ID:          0,
 				UserID:      "userId",
 				DisplayName: "hi",
 			},
@@ -63,7 +65,7 @@ func TestGetUser(t *testing.T) {
 			},
 			mock: func() {
 				rows := sqlmock.NewRows(field).
-					AddRow("userId", "hi")
+					AddRow(0, "userId", "hi")
 				mock.ExpectQuery(query).WithArgs("ok").WillReturnRows(rows)
 			},
 			want:    User{},
