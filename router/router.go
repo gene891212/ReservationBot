@@ -2,7 +2,6 @@ package router
 
 import (
 	"linebot-server/controller"
-	"linebot-server/handler"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,11 +15,15 @@ func SetupRouter() *gin.Engine {
 		router.LoadHTMLGlob("view/*")
 		router.Static("/static", "static")
 	}
+
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(200, "index.tmpl", gin.H{})
+	})
+
 	userRepo := controller.NewUser()
 	linebotRepo := controller.NewLinebot()
 	messageRepo := controller.NewMessage()
 
-	router.GET("/", handler.LiffPage)
 	router.POST("/callback", linebotRepo.EchoBot)
 
 	api := router.Group("/api")
