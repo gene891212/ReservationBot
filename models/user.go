@@ -82,7 +82,7 @@ func GetUserByAccessToken(accessToken string) (User, error) {
 	req.Header.Add("Authorization", "Bearer "+accessToken)
 	resp, err := client.Do(req)
 	if err != nil {
-		return User{}, nil
+		return User{}, err
 	}
 	defer resp.Body.Close()
 
@@ -93,13 +93,13 @@ func GetUserByAccessToken(accessToken string) (User, error) {
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return User{}, nil
+		return User{}, err
 	}
 
 	user := User{}
 	err = json.Unmarshal(body, &user)
 	if err != nil {
-		return User{}, nil
+		return User{}, err
 	}
 
 	return user, nil
