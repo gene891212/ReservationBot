@@ -20,13 +20,17 @@
     <input type="hidden" id="accessToken" name="accessToken">
     <br>
     <label for="reciver">選擇傳送人：</label>
-    <select id="reciver" name="reciver" required></select>
+    <select id="reciver" name="reciver" required>
+      <option hidden disabled selected value> -- 選擇 -- </option>
+    </select>
+    <br>
+    <img id="reciverImg">
     <br>
     <label for="date">選擇預約日期：</label>
-    <input type="date" id="date" name="date" min="{{ .now.Date }}" value="{{ .now.Date }}" required>
+    <input type="date" id="date" name="date" required>
     <br>
     <label for="time">選擇預約時間：</label>
-    <input type="time" id="time" name="time" value="{{ .now.Time }}" required>
+    <input type="time" id="time" name="time" required>
     <br>
     <label for="content">輸入訊息內容：</label>
     <br>
@@ -39,6 +43,7 @@
 </body>
 
 <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-<script src="/static/liff/liff.js"></script>
+<script src="/static/liff/line.js"></script>
+<script src="/static/liff/common.js"></script>
 
 </html>

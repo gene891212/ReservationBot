@@ -28,10 +28,10 @@ func GetUser(db *sql.DB, name string) (User, error) {
 	// if err != nil {
 	// 	return User{}, err
 	// }
-	rows := db.QueryRow("SELECT ID, UserID, DisplayName FROM Users WHERE DisplayName=?", name)
+	rows := db.QueryRow("SELECT ID, UserID, DisplayName, PictureURL FROM Users WHERE DisplayName=?", name)
 
 	user := User{}
-	err := rows.Scan(&user.ID, &user.UserID, &user.DisplayName)
+	err := rows.Scan(&user.ID, &user.UserID, &user.DisplayName, &user.PictureUrl)
 	if err != nil {
 		return User{}, err
 	}

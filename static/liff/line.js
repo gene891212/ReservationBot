@@ -1,5 +1,5 @@
 window.onload = function () {
-  let myliffId = "1655874416-zG2KbgK3";
+  let myliffId = '1655874416-zG2KbgK3';
   liff
     .init({
       liffId: myliffId
@@ -10,28 +10,20 @@ window.onload = function () {
     .catch(() => {
       window.alert(err);
     })
-    getAllUsers();
+  processDate();
 };
 
-function getAllUsers() {
-  let userURL = "/api/users";
-  fetch(userURL)
-    .then((response) => {
-      return response.json()
-    })
-    .then((users) => {
-      console.log(users);
-      users.forEach(element => {
-        let userSelect = document.getElementById("reciver");
-        let userOption = document.createElement("option");
-        userOption.setAttribute("value", element.displayName);
-        userOption.innerText = element.displayName;
-        userSelect.appendChild(userOption);
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+function fillZero(num) {
+  return num.toString().padStart(2, '0')
+}
+
+function processDate() {
+  let date = new Date;
+  let dateFormat = `${date.getFullYear()}-${fillZero(date.getUTCMonth())}-${fillZero(date.getDate())}`;
+  let timeFormat = `${date.getHours()}:${fillZero(date.getMinutes() + 1)}`
+  document.getElementById('date').setAttribute('min', dateFormat);
+  document.getElementById('date').setAttribute('value', dateFormat);
+  document.getElementById('time').setAttribute('value', timeFormat);
 }
 
 function initializeLiff() {
@@ -39,7 +31,7 @@ function initializeLiff() {
   registerButtonHandlers();
   if (liff.isLoggedIn()) {
     let accessToken = liff.getAccessToken();
-    document.getElementById("accessToken").value = accessToken;
+    document.getElementById('accessToken').value = accessToken;
     document.getElementById('liffLoginButton').disabled = true;
   } else {
     document.getElementById('liffLogoutButton').disabled = true;
@@ -70,5 +62,21 @@ function registerButtonHandlers() {
       liff.logout();
       window.location.reload();
     }
+  });
+
+  document.getElementById('reciver').addEventListener('change', function () {
+    let reciverName = document.getElementById('reciver').value;
+    let url = `/api/user/${reciverName}`;
+    fetch(url)
+      .then((response) => {
+        return response.json()
+      })
+      .then((user) => {
+        console.log(user);
+        document.getElementById('reciverImg').setAttribute('src', user.pictureUrl);
+      })
+      .catch((err) => {
+        alert(err);
+      })
   });
 }
