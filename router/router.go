@@ -3,6 +3,7 @@ package router
 import (
 	"linebot-server/controller"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,6 +16,7 @@ func SetupRouter() *gin.Engine {
 		router.LoadHTMLGlob("view/*")
 		router.Static("/static", "static")
 	}
+	router.Use(cors.Default())
 
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(200, "index.tmpl", gin.H{})

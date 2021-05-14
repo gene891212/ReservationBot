@@ -2,14 +2,15 @@ package lib
 
 import (
 	"database/sql"
+	"linebot-server/models"
 	"time"
 )
 
-func ReserveMessage(db *sql.DB, reserveTime time.Time, reciver string, content string) {
+func ReserveMessage(db *sql.DB, msg models.Message) {
 	for {
 		now := time.Now().Format("2006-01-02 15:04")
-		if now == reserveTime.Format("2006-01-02 15:04") {
-			PushMessage(db, reciver, content)
+		if now == msg.Time.Format("2006-01-02 15:04") {
+			PushMessage(db, msg)
 			return
 		}
 	}

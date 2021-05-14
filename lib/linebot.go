@@ -70,7 +70,7 @@ func SetupRichMenu() {
 	}
 }
 
-func PushMessage(db *sql.DB, reciver string, content string) error {
+func PushMessage(db *sql.DB, msg models.Message) error {
 	bot, err := linebot.New(
 		os.Getenv("CHANNEL_SCRECT"),
 		os.Getenv("ACCESS_TOKEN"),
@@ -79,12 +79,7 @@ func PushMessage(db *sql.DB, reciver string, content string) error {
 		return err
 	}
 
-	userProfile, err := models.GetUser(db, reciver)
-	if err != nil {
-		return err
-	}
-
-	_, err = bot.PushMessage(userProfile.UserID, linebot.NewTextMessage(content)).Do()
+	_, err = bot.PushMessage(msg.Reciver.UserID, linebot.NewTextMessage(msg.Content)).Do()
 	if err != nil {
 		return err
 	}

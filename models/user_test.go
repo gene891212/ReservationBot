@@ -89,8 +89,8 @@ func TestGetUser(t *testing.T) {
 
 func TestGetUsers(t *testing.T) {
 	db, mock, _ := sqlmock.New()
-	field := []string{"ID", "UserID", "DisplayName"}
-	query := `SELECT ID, UserID, DisplayName FROM Users`
+	field := []string{"ID", "UserID", "DisplayName", "PictureURL"}
+	query := `SELECT ID, UserID, DisplayName, PictureURL FROM Users`
 	defer db.Close()
 
 	type args struct {
@@ -119,8 +119,8 @@ func TestGetUsers(t *testing.T) {
 			args: args{db},
 			mock: func() {
 				rows := mock.NewRows(field).
-					AddRow(1, "uid", "name").
-					AddRow(2, "uid2", "name2")
+					AddRow(1, "uid", "name", "url").
+					AddRow(2, "uid2", "name2", "url2")
 				mock.ExpectQuery(query).WillReturnRows(rows)
 			},
 			want: []User{
@@ -128,11 +128,13 @@ func TestGetUsers(t *testing.T) {
 					ID:          1,
 					UserID:      "uid",
 					DisplayName: "name",
+					PictureUrl:  "url",
 				},
 				{
 					ID:          2,
 					UserID:      "uid2",
 					DisplayName: "name2",
+					PictureUrl:  "url2",
 				},
 			},
 			wantErr: false,

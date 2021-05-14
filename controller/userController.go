@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"linebot-server/database"
 	"linebot-server/models"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,6 +24,7 @@ func NewUser() UserRepo {
 
 func (repo *UserRepo) GetUserHandler(c *gin.Context) {
 	name, _ := c.Params.Get("name")
+	name = strings.TrimSpace(name)
 	user, err := models.GetUser(repo.Db, name)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -43,6 +45,7 @@ func (repo *UserRepo) GetUserHandler(c *gin.Context) {
 }
 
 func (repo *UserRepo) GetUsersHandler(c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
 	user, err := models.GetUsers(repo.Db)
 	if err != nil {
 		c.JSON(500, gin.H{

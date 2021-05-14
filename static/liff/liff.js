@@ -1,5 +1,5 @@
 window.onload = function () {
-  let myliffId = "1655873565-oW53qqal";
+  let myliffId = "1655874416-zG2KbgK3";
   liff
     .init({
       liffId: myliffId
@@ -10,7 +10,29 @@ window.onload = function () {
     .catch(() => {
       window.alert(err);
     })
+    getAllUsers();
 };
+
+function getAllUsers() {
+  let userURL = "/api/users";
+  fetch(userURL)
+    .then((response) => {
+      return response.json()
+    })
+    .then((users) => {
+      console.log(users);
+      users.forEach(element => {
+        let userSelect = document.getElementById("reciver");
+        let userOption = document.createElement("option");
+        userOption.setAttribute("value", element.displayName);
+        userOption.innerText = element.displayName;
+        userSelect.appendChild(userOption);
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+}
 
 function initializeLiff() {
   displayIsInClientInfo();

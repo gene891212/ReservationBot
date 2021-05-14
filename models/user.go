@@ -39,7 +39,7 @@ func GetUser(db *sql.DB, name string) (User, error) {
 }
 
 func GetUsers(db *sql.DB) ([]User, error) {
-	rows, err := db.Query("SELECT ID, UserID, DisplayName FROM Users")
+	rows, err := db.Query("SELECT ID, UserID, DisplayName, PictureURL FROM Users")
 	if err != nil {
 		return []User{}, err
 	}
@@ -49,7 +49,7 @@ func GetUsers(db *sql.DB) ([]User, error) {
 	allUsers := []User{}
 
 	for rows.Next() {
-		err = rows.Scan(&user.ID, &user.UserID, &user.DisplayName)
+		err = rows.Scan(&user.ID, &user.UserID, &user.DisplayName, &user.PictureUrl)
 		if err != nil {
 			return []User{}, err
 		}

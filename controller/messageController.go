@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"linebot-server/database"
+	"linebot-server/lib"
 	"linebot-server/models"
 	"time"
 
@@ -82,4 +83,7 @@ func (repo *MessageRepo) CreateMessageHandler(c *gin.Context) {
 		return
 	}
 
+	go lib.ReserveMessage(repo.Db, message)
+
+	c.JSON(200, gin.H{"status": 200, "detail": "reserve message successful"})
 }

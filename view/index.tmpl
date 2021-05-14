@@ -20,11 +20,7 @@
     <input type="hidden" id="accessToken" name="accessToken">
     <br>
     <label for="reciver">選擇傳送人：</label>
-    <select id="reciver" name="reciver" required>
-      {{ range $user := .users }}
-      <option value="{{ $user.DisplayName }}">{{ $user.DisplayName }}</option>
-      {{ end }}
-    </select>
+    <select id="reciver" name="reciver" required></select>
     <br>
     <label for="date">選擇預約日期：</label>
     <input type="date" id="date" name="date" min="{{ .now.Date }}" value="{{ .now.Date }}" required>
@@ -44,6 +40,5 @@
 
 <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script src="/static/liff/liff.js"></script>
-<script src="/static/liff/send_req.js"></script>
 
 </html>
